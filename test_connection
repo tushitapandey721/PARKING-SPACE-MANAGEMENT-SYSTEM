@@ -1,0 +1,10 @@
+from pymongo import MongoClient
+
+try:
+    client = MongoClient("mongodb+srv://tush61270:TushitaP@cluster0.o2pxr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+    db = client["parkingDB"]
+    print("✅ Connected to MongoDB Atlas successfully!")
+    print("Collections:", db.list_collection_names())
+except Exception as e:
+    print("❌ Connection to MongoDB Atlas failed.")
+    print("Error:", e)

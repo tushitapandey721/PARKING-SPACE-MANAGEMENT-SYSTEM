@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parking Slots</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #00ffcc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .header {
+      margin-bottom: 20px;
+    }
+
+    .logout-btn {
+      padding: 10px 24px;
+      background-color: #00ffcc;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #00ffaa;
+    }
+
+    .message-box {
+      margin-bottom: 20px;
+      padding: 12px;
+      background-color: #1a1a1a;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+      color: #00ffcc;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .slot {
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      display: inline-block;
+      text-align: center;
+      line-height: 100px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      border: 2px solid #00ffcc;
+    }
+
+    .available {
+  background-color: #4CAF50;
+  box-shadow: 0 0 10px #4CAF50;
+}
+
+.slot.available:hover {
+  background-color: #45a049;
+}
+
+
+    .occupied {
+      background-color: #990000;
+      cursor: not-allowed;
+    }
+
+    .slot.available:hover {
+      background-color: #006666;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1a1a1a;
+      border: 2px solid #00ffcc;
+      padding: 20px;
+      z-index: 1000;
+      color: #00ffcc;
+      border-radius: 10px;
+    }
+
+    .modal input {
+      margin: 10px 0;
+      padding: 10px;
+      width: 90%;
+      border-radius: 8px;
+      border: none;
+    }
+
+    .modal button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #00ffcc;
+      color: black;
+    }
+
+    .modal button:hover {
+      background-color: #00ffaa;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 500;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a href="/logout"><button class="logout-btn">Logout</button></a>
+  </div>
+
+  {% if message %}
+    <div class="message-box">{{ message }}</div>
+  {% endif %}
+
+  <h2>Click on a green slot to book it</h2>
+  <div class="container">
+    {% for slot in slots %}
+      <div class="slot {{ slot.status }}" 
+           data-id="{{ slot._id }}" 
+           data-status="{{ slot.status }}"
+           onclick="handleClick(this)">
+        {{ slot.slot_number or loop.index }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Modal -->
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="bookingModal">
+    <form method="POST" id="bookingForm">
+      <h3>Book Slot</h3>
+      <input type="text" name="name" placeholder="Your Name" required><br>
+      <input type="text" name="vehicle_number" placeholder="Vehicle Number" required><br>
+      <button type="submit">Book</button>
+      <button type="button" onclick="closeModal()">Cancel</button>
+    </form>
+  </div>
+
+  <script>
+    function handleClick(elem) {
+      const status = elem.dataset.status;
+      const slotId = elem.dataset.id;
+
+      if (status === "occupied") return;
+
+      const form = document.getElementById("bookingForm");
+      form.action = "/book/" + slotId;
+
+      document.getElementById("bookingModal").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("bookingModal").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

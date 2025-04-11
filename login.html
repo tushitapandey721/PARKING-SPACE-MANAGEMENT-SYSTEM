@@ -1,0 +1,58 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Parking System</title>
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: #00ffcc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            border: 2px solid #00ffcc;
+            padding: 40px;
+            border-radius: 12px;
+            background-color: #1a1a1a;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+        }
+
+        input[type="submit"] {
+            padding: 12px 24px;
+            background-color: #00ffcc;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #00ffaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Login</h2>
+        <form method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <br>
+            <input type="password" name="password" placeholder="Password" required>
+            <br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+</html>

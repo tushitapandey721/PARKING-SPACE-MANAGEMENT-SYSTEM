@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #00ffcc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .header {
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .slot {
+      width: 100px;
+      height: 100px;
+      display: inline-block;
+      margin: 10px;
+      border-radius: 10px;
+      text-align: center;
+      line-height: 100px;
+      font-weight: bold;
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+      border: 2px solid #00ffcc;
+      background-color: #1a1a1a;
+      transition: transform 0.2s ease;
+    }
+
+    .slot:hover {
+      transform: scale(1.05);
+    }
+
+    .available {
+      background-color: #006600;
+    }
+
+    .occupied {
+      background-color: #990000;
+    }
+
+    .reset-btn, .logout-btn {
+      margin: 10px;
+      padding: 10px 24px;
+      background-color: #00ffcc;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .reset-btn:hover, .logout-btn:hover {
+      background-color: #00ffaa;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    form {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h2>Admin Dashboard</h2>
+  <a href="/logout"><button class="logout-btn">Logout</button></a>
+  <a href="/reset_all"><button class="reset-btn">Reset All Slots</button></a>
+</div>
+
+<div>
+  {% for slot in slots %}
+    <form method="GET" action="/reset/{{ slot._id }}">
+      <button class="slot {{ slot.status }}"
+              title="Booked by: {{ slot.booked_by or 'N/A' }}&#10;Vehicle: {{ slot.vehicle_number or 'N/A' }}">
+        {{ "Slot " ~ loop.index }}
+      </button>
+    </form>
+  {% endfor %}
+</div>
+
+</body>
+</html>
